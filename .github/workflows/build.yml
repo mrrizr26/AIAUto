@@ -2,7 +2,11 @@ name: Build APK
 
 on:
   push:
+    branches: [ main, master ]
   workflow_dispatch:
+
+permissions:
+  contents: write   # GitHub Release banate lage
 
 jobs:
   build:
@@ -22,11 +26,31 @@ jobs:
         with:
           gradle-version: 8.9
 
-      - name: Build debug APK
-        run: gradle assembleDebug --no-daemon
+      - name: Compute version
+        run: |
+          echo "VC=$((100 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+          echo "VN=1.3.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
 
-      - name: Upload APK
+      - name: Build signed release APK
+        run: >
+          gradle assembleRelease --no-daemon
+          -PappVersionCode=$VC
+          -PgithubRepo=${{ github.repository }}
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk "AutoEnhance-v${VN}.apk"
+
+      - name: Upload APK (artifact)
         uses: actions/upload-artifact@v4
         with:
-          name: AutoEnhance-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: AutoEnhance-apk
+          path: AutoEnhance-v${{ env.VN }}.apk
+
+      - name: Publish GitHub Release (app eta theke update nibe)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-$VC" "AutoEnhance-v${VN}.apk" \
+            --title "v${VN}" \
+            --notes "Auto build #${GITHUB_RUN_NUMBER}: $(git log -1 --pretty=%s)" \
+            --latest
