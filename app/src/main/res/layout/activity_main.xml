@@ -2,59 +2,444 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#0E0E10"
+    android:orientation="vertical">
+
+    <!-- Top bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp">
+
+        <TextView
+            android:id="@+id/btnPickTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="📁 Import"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Auto Enhance"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:padding="6dp"
+            android:text="⚙"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/btnExport"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_export"
+            android:gravity="center"
+            android:paddingHorizontal="18dp"
+            android:text="Export"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <TextView
+        android:id="@+id/tvUpdateBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Auto Enhance"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:background="#1F3A3D"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="🎉 Update available"
+        android:textColor="#25F4EE"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <VideoView
-        android:id="@+id/videoView"
+    <!-- Preview -->
+    <FrameLayout
+        android:id="@+id/videoContainer"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginTop="12dp"
-        android:background="#000000" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000">
+
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/tvBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="10dp"
+            android:background="#99000000"
+            android:paddingHorizontal="9dp"
+            android:paddingVertical="3dp"
+            android:text="ENHANCED"
+            android:textColor="#25F4EE"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/btnPickBig"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_pick"
+            android:gravity="center"
+            android:paddingHorizontal="28dp"
+            android:text="＋  New project"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Playback row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/btnPlay"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:text="▶"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="0:00 / 0:00"
+            android:textColor="#B0B0B8"
+            android:textSize="11sp" />
+
+        <SeekBar
+            android:id="@+id/seekPlay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="1000"
+            android:progressTint="#25F4EE"
+            android:thumbTint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/btnCompare"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:text="◐ Hold"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Ekta video select korun."
-        android:textSize="14sp" />
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingHorizontal="14dp"
+        android:paddingBottom="4dp"
+        android:text="Import korun, tarpor auto enhance dekhun."
+        android:textColor="#8A8A90"
+        android:textSize="11sp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="4dp"
         android:max="100"
+        android:progressTint="#25F4EE"
         android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/btnPick"
+    <!-- Tool panels -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="1. Video select korun" />
+        android:layout_height="236dp"
+        android:background="@drawable/bg_panel">
 
-    <Button
-        android:id="@+id/btnEnhance"
+        <!-- AUTO -->
+        <LinearLayout
+            android:id="@+id/panelAuto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <Switch
+                android:id="@+id/swAuto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="✨ Auto tone &amp; color"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStrength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Strength  80%"
+                android:textColor="#B0B0B8"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekStrength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="80"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔍 Deep Details  60%"
+                android:textColor="#B0B0B8"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="60"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+
+            <CheckBox
+                android:id="@+id/cbCleanup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Denoise + Sharpen (video porishkar)"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- ADJUST -->
+        <LinearLayout
+            android:id="@+id/panelAdjust"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llAdjChips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvAdjValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:text="Brightness  0"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <SeekBar
+                android:id="@+id/seekAdjust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:max="200"
+                android:progress="100"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/btnAdjReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:text="↺ Reset all"
+                android:textColor="#25F4EE"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- FILTERS -->
+        <LinearLayout
+            android:id="@+id/panelFilters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llFilters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvIntensity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="12dp"
+                android:text="Intensity  100%"
+                android:textColor="#B0B0B8"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekIntensity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="100"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- TRIM -->
+        <LinearLayout
+            android:id="@+id/panelTrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="14dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvTrimStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start  0.0s"
+                android:textColor="#B0B0B8"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekTrimStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="1000"
+                android:progress="0"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvTrimEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="End  0.0s"
+                android:textColor="#B0B0B8"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/seekTrimEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="1000"
+                android:progress="1000"
+                android:progressTint="#25F4EE"
+                android:thumbTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvTrimInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Clip length: -"
+                android:textColor="#8A8A90"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Bottom toolbar -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="2. Auto Enhance" />
+        android:layout_height="62dp"
+        android:background="#17171A"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnToggle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="3. Before / After dekhun" />
+        <TextView
+            android:id="@+id/tabAuto"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="✨\nAuto"
+            android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/tabAdjust"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="🎚\nAdjust"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tabFilters"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="🎨\nFilters"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tabTrim"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="✂\nTrim"
+            android:textSize="12sp" />
+    </LinearLayout>
 </LinearLayout>

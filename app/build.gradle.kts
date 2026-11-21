@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+// GitHub Actions theke pass kora hoy (-PappVersionCode, -PgithubRepo)
+val appVersionCode: Int = (project.findProperty("appVersionCode") as String?)?.toIntOrNull() ?: 100
+val githubRepo: String = (project.findProperty("githubRepo") as String?) ?: ""
+
 android {
     namespace = "com.example.autoenhance"
     compileSdk = 34
@@ -11,13 +15,32 @@ android {
         applicationId = "com.example.autoenhance"
         minSdk = 29
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = "1.3.${appVersionCode - 100}"
+        buildConfigField("String", "GITHUB_REPO", "\"$githubRepo\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // Shob build same key diye sign hobe, tai update install kaj korbe.
+    signingConfigs {
+        create("shared") {
+            storeFile = file("autoenhance.keystore")
+            storePassword = "autoenhance"
+            keyAlias = "autoenhance"
+            keyPassword = "autoenhance"
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("shared")
+        }
+        debug {
+            signingConfig = signingConfigs.getByName("shared")
         }
     }
 
@@ -32,6 +55,7 @@ android {
 
     lint {
         abortOnError = false
+        checkReleaseBuilds = false
     }
 }
 
@@ -42,5 +66,6 @@ dependencies {
     val media3 = "1.4.1"
     implementation("androidx.media3:media3-common:$media3")
     implementation("androidx.media3:media3-effect:$media3")
+    implementation("androidx.media3:media3-exoplayer:$media3")
     implementation("androidx.media3:media3-transformer:$media3")
 }
